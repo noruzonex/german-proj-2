@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- =========================================================
+       HEAD SECTION: Metadata, External CSS/JS, and Styles
+       ========================================================= -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learn German | Modern German Learning</title>
+  
+  <!-- External CSS: Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  
+  <!-- External JS: GSAP for animations and ScrollTrigger -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+  
+  <!-- =========================================================
+       STYLE SECTION: Global Styles, Layout, and Component Styles
+       ========================================================= -->
+  <style>
+    :root {
+      --primary: #4a6fa5;
+      --secondary: #ff6b6b;
+      --dark: #333;
+      --light: #f9f9f9;
+      --accent: #ffd166;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background-color: var(--light);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* HEADER & NAVIGATION */
+    header {
+      height: 80px;
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+    
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+    }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      transition: color 0.3s;
+      line-height: 80px;
+    }
+    
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    
+    .cta-button {
+      background-color: var(--primary);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: inline-block;
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(74,111,165,0.4);
+    }
+    
+    .logout-button {
+      line-height: 80px;
+    }
+    
+    /* MODAL STYLES (Choice, Login, Registration) */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+    
+    .modal-overlay.active {
+      display: flex;
+    }
+    
+    .modal {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      text-align: center;
+    }
+    
+    .modal h2 {
+      margin-bottom: 20px;
+      color: var(--primary);
+    }
+    
+    .modal form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    
+    .modal input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    
+    .modal button {
+      padding: 10px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .modal button:hover {
+      background: #3a5a8f;
+    }
+    
+    .modal .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--dark);
+    }
+    
+    .choice-buttons {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 20px;
+    }
+    
+    .choice-buttons button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      background: var(--primary);
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .choice-buttons button:hover {
+      background: #3a5a8f;
+    }
+    
+    /* HERO SECTION */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .hero-content {
+      width: 50%;
+      padding-right: 40px;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    
+    .hero-title {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    
+    .hero-subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      line-height: 1.6;
+      color: #666;
+    }
+    
+    .hero-image {
+      width: 50%;
+      position: relative;
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    
+    .circle-1, .circle-2, .circle-3 {
+      position: absolute;
+      border-radius: 50%;
+      z-index: -1;
+    }
+    
+    .circle-1 {
+      width: 300px;
+      height: 300px;
+      background-color: rgba(74,111,165,0.1);
+      top: 10%;
+      right: 10%;
+    }
+    
+    .circle-2 {
+      width: 200px;
+      height: 200px;
+      background-color: rgba(255,107,107,0.1);
+      bottom: 15%;
+      left: 5%;
+    }
+    
+    .circle-3 {
+      width: 150px;
+      height: 150px;
+      background-color: rgba(255,209,102,0.15);
+      top: 20%;
+      left: 30%;
+    }
+    
+    /* FEATURES SECTION */
+    .features {
+      padding: 100px 0;
+      background-color: white;
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      margin-bottom: 60px;
+      color: var(--primary);
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+    }
+    
+    .feature-card {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+    
+    .feature-icon {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+    
+    .feature-title {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+    
+    .feature-desc {
+      color: #666;
+      line-height: 1.6;
+    }
+    
+    /* LESSONS SECTION */
+    .lessons {
+      padding: 100px 0;
+      background-color: var(--light);
+    }
+    
+    .lesson-card {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+      transition: transform 0.3s;
+      margin-bottom: 30px;
+      opacity: 0;
+      transform: translateY(20px);
+      cursor: pointer;
+    }
+    
+    .lesson-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .lesson-image {
+      height: 200px;
+      background-position: center;
+      background-size: cover;
+    }
+    
+    .lesson-content {
+      padding: 25px;
+    }
+    
+    .lesson-tag {
+      display: inline-block;
+      background-color: rgba(74,111,165,0.1);
+      color: var(--primary);
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      margin-bottom: 10px;
+    }
+    
+    .lesson-title {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+    }
+    
+    .lesson-desc {
+      color: #666;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    .lessons-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    /* INTERACTIVE DEMO & VOCABULARY SECTION */
+    .interactive-demo {
+      padding: 100px 0;
+      background-color: white;
+    }
+    
+    .demo-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 50px;
+    }
+    
+    .demo-text {
+      width: 40%;
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    
+    .demo-interface {
+      width: 60%;
+      background-color: var(--light);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    
+    .word-bank {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+    
+    .word {
+      background-color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .word:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .sentence-area {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      min-height: 100px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .check-button {
+      background-color: var(--primary);
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .check-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+    }
+    
+    /* TESTIMONIALS SECTION */
+    .testimonials {
+      padding: 100px 0;
+      background-color: var(--light);
+    }
+    
+    .testimonial-slider {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    .testimonial {
+      background-color: white;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      text-align: center;
+      opacity: 0;
+    }
+    
+    .testimonial-text {
+      font-size: 1.2rem;
+      line-height: 1.8;
+      margin-bottom: 30px;
+      color: #555;
+      position: relative;
+    }
+    
+    .testimonial-text::before,
+    .testimonial-text::after {
+      content: '"';
+      font-size: 3rem;
+      color: rgba(74,111,165,0.2);
+      position: absolute;
+    }
+    
+    .testimonial-text::before {
+      top: -20px;
+      left: -15px;
+    }
+    
+    .testimonial-text::after {
+      bottom: -40px;
+      right: -15px;
+    }
+    
+    .testimonial-author {
+      font-weight: 600;
+      color: var(--primary);
+    }
+    
+    /* CTA SECTION */
+    .cta {
+      padding: 100px 0;
+      background-color: var(--primary);
+      color: white;
+      text-align: center;
+    }
+    
+    .cta-title {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      opacity: 0;
+    }
+    
+    .cta-subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 40px;
+      max-width: 700px;
+      margin: 0 auto;
+      opacity: 0;
+    }
+    
+    .cta-button-light {
+      background-color: white;
+      color: var(--primary);
+      padding: 15px 30px;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: inline-block;
+      font-size: 1.1rem;
+      opacity: 0;
+    }
+    
+    .cta-button-light:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(255,255,255,0.3);
+    }
+    
+    /* FOOTER SECTION */
+    footer {
+      padding: 80px 0 30px;
+      background-color: var(--dark);
+      color: white;
+    }
+    
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+    
+    .footer-logo {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: white;
+    }
+    
+    .footer-desc {
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    .footer-social {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+    }
+    
+    .footer-social a:hover {
+      background-color: rgba(255,255,255,0.2);
+    }
+    
+    .footer-heading {
+      font-size: 1.2rem;
+      margin-bottom: 25px;
+      color: white;
+    }
+    
+    .footer-links {
+      list-style: none;
+    }
+    
+    .footer-links li {
+      margin-bottom: 15px;
+    }
+    
+    .footer-links a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5);
+    }
+    
+    /* RESPONSIVE STYLES */
+    @media (max-width: 992px) {
+      .hero-content, .hero-image {
+        width: 100%;
+        padding-right: 0;
+      }
+      .hero {
+        flex-direction: column;
+        height: auto;
+        padding: 150px 0 80px;
+      }
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .demo-container {
+        flex-direction: column;
+      }
+      .demo-text, .demo-interface {
+        width: 100%;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      .section-title {
+        font-size: 2rem;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER & NAVIGATION -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">Learn German</div>
+        <div class="nav-links">
+          <a href="#features">Features</a>
+          <a href="#lessons">Lessons</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <a href="#" class="cta-button" id="getStartedButton">Get Started</a>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">Learn German with AI-powered lessons</h1>
+        <p class="hero-subtitle">
+          Master German naturally with our interactive platform based on Netzwerk A1 and A2 textbooks.
+          Personalized learning paths, instant feedback, and practical exercises await you.
+        </p>
+        <a href="#" class="cta-button">Start Learning Now</a>
+      </div>
+      <div class="hero-image">
+        <!-- Optional hero image can go here -->
+      </div>
+    </div>
+    <div class="circle-1"></div>
+    <div class="circle-2"></div>
+    <div class="circle-3"></div>
+  </section>
+  
+  <!-- FEATURES SECTION -->
+  <section class="features" id="features">
+    <div class="container">
+      <h2 class="section-title">Why Choose Learn German?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <h3 class="feature-title">AI-Powered Learning</h3>
+          <p class="feature-desc">
+            Our intelligent system adapts to your learning style and pace, creating a personalized experience.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📚</div>
+          <h3 class="feature-title">Based on Netzwerk Books</h3>
+          <p class="feature-desc">
+            Structured curriculum following the proven Netzwerk A1 and A2 methodology for effective learning.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3 class="feature-title">Focused Practice</h3>
+          <p class="feature-desc">
+            Target your weak areas with specialized exercises that help you overcome challenges quickly.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔊</div>
+          <h3 class="feature-title">Pronunciation Feedback</h3>
+          <p class="feature-desc">
+            Get real-time guidance to speak German like a native.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📱</div>
+          <h3 class="feature-title">Learn Anywhere</h3>
+          <p class="feature-desc">
+            Access your lessons on any device, anytime. Perfect for on-the-go learning.
+          </p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏆</div>
+          <h3 class="feature-title">Gamified Experience</h3>
+          <p class="feature-desc">
+            Earn points, unlock achievements, and stay motivated throughout your learning journey.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- LESSONS SECTION -->
+  <section class="lessons" id="lessons">
+    <div class="container">
+      <h2 class="section-title">Featured Lessons</h2>
+      <div class="lessons-container">
+        <div class="lesson-card" data-lesson-id="sich-vorstellen">
+          <div class="lesson-image" style="background-image: url('https://images.unsplash.com/photo-1467269204594-9661b134dd2b?w=400&h=200&fit=crop')"></div>
+          <div class="lesson-content">
+            <span class="lesson-tag">A1 Level</span>
+            <h3 class="lesson-title">Sich vorstellen</h3>
+            <p class="lesson-desc">
+              Learn how to introduce yourself and build a strong foundation in everyday conversation.
+            </p>
+            <a href="sich-vorstellen.html" class="cta-button">Start Lesson</a>
+          </div>
+        </div>
+        <div class="lesson-card" data-lesson-id="im-cafe-bestellen">
+          <div class="lesson-image" style="background-image: url('https://images.unsplash.com/photo-1501952476817-d7ae22e8ee4e?w=400&h=200&fit=crop')"></div>
+          <div class="lesson-content">
+            <span class="lesson-tag">A1 Level</span>
+            <h3 class="lesson-title">Im Café bestellen</h3>
+            <p class="lesson-desc">
+              Practice ordering food and drinks in German with confidence and cultural finesse.
+            </p>
+            <a href="im-cafe-bestellen.html" class="cta-button">Start Lesson</a>
+          </div>
+        </div>
+        <div class="lesson-card" data-lesson-id="wegbeschreibungen">
+          <div class="lesson-image" style="background-image: url('https://images.unsplash.com/photo-1561531498-7f5e51f3f6e9?w=400&h=200&fit=crop')"></div>
+          <div class="lesson-content">
+            <span class="lesson-tag">A2 Level</span>
+            <h3 class="lesson-title">Wegbeschreibungen</h3>
+            <p class="lesson-desc">
+              Master asking for and giving directions in German with practical dialogues and exercises.
+            </p>
+            <a href="wegbeschreibungen.html" class="cta-button">Start Lesson</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="vocabulary-list" style="margin-top: 50px;">
+        <h3>Essential A1 Vocabulary</h3>
+        <div class="vocab-item">
+          <span class="vocab-german">Guten Tag</span>
+          <span>Good day</span>
+        </div>
+        <div class="vocab-item">
+          <span class="vocab-german">Wie heißt du?</span>
+          <span>What's your name?</span>
+        </div>
+        <div class="vocab-item">
+          <span class="vocab-german">Ich komme aus...</span>
+          <span>I come from...</span>
+        </div>
+        <div class="vocab-item">
+          <span class="vocab-german">Ich wohne in...</span>
+          <span>I live in...</span>
+        </div>
+        <div class="vocab-item">
+          <span class="vocab-german">Auf Wiedersehen</span>
+          <span>Goodbye</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- INTERACTIVE DEMO SECTION -->
+  <section class="interactive-demo">
+    <div class="container">
+      <h2 class="section-title">Try it Yourself</h2>
+      <div class="demo-container">
+        <div class="demo-text">
+          <h3>Interactive Learning</h3>
+          <p>
+            Our exercises are designed to make learning German intuitive and effective.
+            Drag and drop words to form correct sentences and get instant feedback.
+          </p>
+          <p>
+            Based on the Netzwerk A1 and A2 curriculum, this exercise helps you practice basic sentence structure and vocabulary.
+          </p>
+        </div>
+        <div class="demo-interface">
+          <h3>Build a Sentence</h3>
+          <p>Arrange the words to form a correct German sentence.</p>
+          
+          <div class="word-bank">
+            <div class="word">Ich</div>
+            <div class="word">heiße</div>
+            <div class="word">bin</div>
+            <div class="word">Jahre</div>
+            <div class="word">komme</div>
+            <div class="word">alt</div>
+            <div class="word">aus</div>
+            <div class="word">Deutschland</div>
+            <div class="word">und</div>
+            <div class="word">25</div>
+          </div>
+          
+          <div class="sentence-area">
+            <!-- Words will be dropped here -->
+          </div>
+          
+          <button class="check-button">Check Answer</button>
+          
+          <div class="dialog-exercise" style="margin-top: 30px;">
+            <h4 class="dialog-title">Complete the Dialog</h4>
+            <div class="dialog-line">
+              <div class="dialog-speaker">Anna:</div>
+              <div>Hallo! Wie <span class="dialog-blank"></span> du?</div>
+            </div>
+            <div class="dialog-line">
+              <div class="dialog-speaker">Thomas:</div>
+              <div>Ich heiße Thomas. Und <span class="dialog-blank"></span>?</div>
+            </div>
+            <div class="dialog-line">
+              <div class="dialog-speaker">Anna:</div>
+              <div>Ich <span class="dialog-blank"></span> Anna. <span class="dialog-blank"></span> kommst du?</div>
+            </div>
+            <div class="dialog-line">
+              <div class="dialog-speaker">Thomas:</div>
+              <div>Ich komme <span class="dialog-blank"></span> Berlin.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- TESTIMONIALS SECTION -->
+  <section class="testimonials">
+    <div class="container">
+      <h2 class="section-title">What Our Students Say</h2>
+      <div class="testimonial-slider">
+        <div class="testimonial">
+          <p class="testimonial-text">
+            Learn German helped me master the language faster than any other method I've tried.
+            The interactive lessons and personalized feedback made a huge difference.
+          </p>
+          <div class="testimonial-author">- Shyamshriram, reached B1 level in 6 months</div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- CTA SECTION -->
+  <section class="cta">
+    <div class="container">
+      <h2 class="cta-title">Ready to Start Your German Journey?</h2>
+      <p class="cta-subtitle">
+        Join thousands of students learning German with our AI-powered platform based on the Netzwerk A1 and A2 curriculum.
+      </p>
+      <a href="#" class="cta-button-light">Start Learning for Free</a>
+    </div>
+  </section>
+  
+  <!-- FOOTER SECTION -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">LinguaLern</div>
+          <p class="footer-desc">
+            Making German language learning accessible, effective, and enjoyable with AI-powered lessons based on the proven Netzwerk curriculum.
+          </p>
+          <div class="footer-social">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-heading">Learn</h4>
+          <ul class="footer-links">
+            <li><a href="#">A1 Beginner</a></li>
+            <li><a href="#">A2 Elementary</a></li>
+            <li><a href="#">Grammar</a></li>
+            <li><a href="#">Vocabulary</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Company</h4>
+          <ul class="footer-links">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Press</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Support</h4>
+          <ul class="footer-links">
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Learn German. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- JAVASCRIPT: Animations & Modal Handling -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      gsap.to('.hero-content', { opacity: 1, y: 0, duration: 1, delay: 0.2 });
+      gsap.to('.hero-image', { opacity: 1, x: 0, duration: 1, delay: 0.2 });
+      gsap.utils.toArray('.section-title').forEach(title => {
+        gsap.to(title, { opacity: 1, y: 0, duration: 0.8 });
+      });
+      gsap.utils.toArray('.feature-card, .lesson-card').forEach((card, i) => {
+        gsap.to(card, { opacity: 1, y: 0, duration: 0.6, delay: i * 0.1 });
+      });
+      gsap.to('.demo-text', { opacity: 1, x: 0, duration: 0.8 });
+      gsap.to('.demo-interface', { opacity: 1, x: 0, duration: 0.8, delay: 0.3 });
+      gsap.to('.testimonial', { opacity: 1, duration: 1 });
+      gsap.to('.cta-title', { opacity: 1, duration: 0.8 });
+      gsap.to('.cta-subtitle', { opacity: 1, duration: 0.8, delay: 0.2 });
+      gsap.to('.cta-button-light', { opacity: 1, duration: 0.8, delay: 0.4 });
+    });
+  </script>
+  
+  <!-- MODAL SECTION: Login & Registration -->
+  <div class="modal-overlay" id="choiceModal">
+    <div class="modal">
+      <button class="close-modal" id="closeChoiceModal">&times;</button>
+      <h2>Welcome!</h2>
+      <p>Please choose an option:</p>
+      <div class="choice-buttons">
+        <button id="choiceLogin">Login</button>
+        <button id="choiceRegister">Register</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal-overlay" id="loginModal">
+    <div class="modal">
+      <button class="close-modal" id="closeLoginModal">&times;</button>
+      <h2>Login</h2>
+      <form id="loginForm">
+        <input type="email" placeholder="Email" required />
+        <input type="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
+      <p>Don't have an account? <a href="#" id="registerLink">Register</a></p>
+    </div>
+  </div>
+  
+  <div class="modal-overlay" id="registerModal">
+    <div class="modal">
+      <button class="close-modal" id="closeRegisterModal">&times;</button>
+      <h2>Register</h2>
+      <form id="registerForm">
+        <input type="text" placeholder="Name" required />
+        <input type="email" placeholder="Email" required />
+        <input type="password" placeholder="Password" required />
+        <button type="submit">Register</button>
+      </form>
+      <p>Already have an account? <a href="#" id="loginLink">Login</a></p>
+    </div>
+  </div>
+  
+  <!-- SCRIPT: Save and Load User Progress on Main Page -->
+  <script>
+    async function loadUserProgress() {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+      try {
+        const response = await fetch('http://localhost:3000/api/progress', {
+          method: 'GET',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        const progressData = await response.json();
+        // Assuming progressData is an array of lesson IDs that are marked as completed.
+        progressData.forEach(lessonId => {
+          const card = document.querySelector(`[data-lesson-id="${lessonId}"]`);
+          if(card) {
+            card.classList.add('completed');
+            // Optionally, add a checkmark icon.
+            const mark = document.createElement('span');
+            mark.textContent = " ✔";
+            mark.style.color = 'green';
+            card.querySelector('.lesson-title').appendChild(mark);
+          }
+        });
+      } catch(err) {
+        console.error(err);
+      }
+    }
+    
+    loadUserProgress();
+  </script>
+  
+  <!-- SCRIPT: Modal & API Handling (Login/Registration/Progress Saving) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const getStartedButton = document.getElementById('getStartedButton');
+      const choiceModal = document.getElementById('choiceModal');
+      const closeChoiceModal = document.getElementById('closeChoiceModal');
+      const choiceLogin = document.getElementById('choiceLogin');
+      const choiceRegister = document.getElementById('choiceRegister');
+      
+      const loginModal = document.getElementById('loginModal');
+      const closeLoginModal = document.getElementById('closeLoginModal');
+      const loginLink = document.getElementById('loginLink');
+      const loginForm = document.getElementById('loginForm');
+      
+      const registerModal = document.getElementById('registerModal');
+      const closeRegisterModal = document.getElementById('closeRegisterModal');
+      const registerLink = document.getElementById('registerLink');
+      const registerForm = document.getElementById('registerForm');
+      
+      getStartedButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        choiceModal.classList.add('active');
+      });
+      
+      if (closeChoiceModal) {
+        closeChoiceModal.addEventListener('click', () => {
+          choiceModal.classList.remove('active');
+        });
+      }
+      
+      choiceLogin.addEventListener('click', () => {
+        choiceModal.classList.remove('active');
+        loginModal.classList.add('active');
+      });
+      choiceRegister.addEventListener('click', () => {
+        choiceModal.classList.remove('active');
+        registerModal.classList.add('active');
+      });
+      
+      if (loginLink) {
+        loginLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          loginModal.classList.add('active');
+        });
+      }
+      if (registerLink) {
+        registerLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          registerModal.classList.add('active');
+        });
+      }
+      if (closeLoginModal) {
+        closeLoginModal.addEventListener('click', () => {
+          loginModal.classList.remove('active');
+        });
+      }
+      if (closeRegisterModal) {
+        closeRegisterModal.addEventListener('click', () => {
+          registerModal.classList.remove('active');
+        });
+      }
+      
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const email = loginForm.querySelector('input[type="email"]').value;
+        const password = loginForm.querySelector('input[type="password"]').value;
+        try {
+          const response = await fetch('http://localhost:3000/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+          });
+          const data = await response.json();
+          if (data.error) {
+            alert(data.error);
+          } else {
+            localStorage.setItem('token', data.token);
+            alert('Login successful!');
+            loginModal.classList.remove('active');
+            location.reload();
+          }
+        } catch (error) {
+          alert('Login failed. Please try again.');
+        }
+      });
+      
+      registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const name = registerForm.querySelector('input[placeholder="Name"]').value;
+        const email = registerForm.querySelector('input[placeholder="Email"]').value;
+        const password = registerForm.querySelector('input[placeholder="Password"]').value;
+        try {
+          const response = await fetch('http://localhost:3000/api/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password })
+          });
+          const data = await response.json();
+          if (data.error) {
+            alert(data.error);
+          } else {
+            alert('Registration successful! You can now log in.');
+            registerModal.classList.remove('active');
+          }
+        } catch (error) {
+          alert('Registration failed. Please try again.');
+        }
+      });
+      
+      if (localStorage.getItem('token')) {
+        const navLinks = document.querySelector('.nav-links');
+        const loginEl = document.getElementById('loginLink');
+        const registerEl = document.getElementById('registerLink');
+        const getStartedEl = document.getElementById('getStartedButton');
+        if (loginEl) loginEl.style.display = 'none';
+        if (registerEl) registerEl.style.display = 'none';
+        if (getStartedEl) getStartedEl.style.display = 'none';
+        
+        const logoutButton = document.createElement('a');
+        logoutButton.href = "#";
+        logoutButton.textContent = "Logout";
+        logoutButton.className = "logout-button";
+        logoutButton.addEventListener('click', (e) => {
+          e.preventDefault();
+          localStorage.removeItem('token');
+          location.reload();
+        });
+        navLinks.appendChild(logoutButton);
+      }
+    });
+  </script>
+</body>
+</html>

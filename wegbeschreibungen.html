@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- HEAD SECTION -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wegbeschreibungen - Learn German</title>
+  
+  <!-- External CSS: Font Awesome & GSAP -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+  
+  <!-- STYLE SECTION -->
+  <style>
+    :root {
+      --primary: #4a6fa5;
+      --secondary: #ff6b6b;
+      --dark: #333;
+      --light: #f9f9f9;
+      --accent: #ffd166;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body {
+      background-color: var(--light);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    /* HEADER & NAVIGATION */
+    header {
+      height: 80px;
+      background-color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      transition: color 0.3s;
+      line-height: 80px;
+    }
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    .cta-button {
+      background-color: var(--primary);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: inline-block;
+    }
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(74,111,165,0.4);
+    }
+    .logout-button {
+      line-height: 80px;
+    }
+    /* HERO SECTION */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-content {
+      width: 50%;
+      padding-right: 40px;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    .hero-title {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+    .hero-subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      line-height: 1.6;
+      color: #666;
+    }
+    .hero-image {
+      width: 50%;
+      position: relative;
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    .circle-1, .circle-2, .circle-3 {
+      position: absolute;
+      border-radius: 50%;
+      z-index: -1;
+    }
+    .circle-1 {
+      width: 300px;
+      height: 300px;
+      background-color: rgba(74,111,165,0.1);
+      top: 10%;
+      right: 10%;
+    }
+    .circle-2 {
+      width: 200px;
+      height: 200px;
+      background-color: rgba(255,107,107,0.1);
+      bottom: 15%;
+      left: 5%;
+    }
+    .circle-3 {
+      width: 150px;
+      height: 150px;
+      background-color: rgba(255,209,102,0.15);
+      top: 20%;
+      left: 30%;
+    }
+    /* LESSON SECTION */
+    .lesson-section {
+      padding: 40px 0;
+      background-color: white;
+    }
+    .lesson-section h2 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+    .lesson-section p,
+    .lesson-section ul,
+    .lesson-section blockquote {
+      max-width: 800px;
+      margin: 0 auto 20px;
+      line-height: 1.6;
+      color: var(--dark);
+    }
+    blockquote {
+      border-left: 4px solid var(--primary);
+      padding-left: 15px;
+      font-style: italic;
+    }
+    /* FLASHCARDS SECTION */
+    .flashcards-section {
+      padding: 40px 0;
+      background-color: white;
+      text-align: center;
+    }
+    .flashcards-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .flashcard {
+      width: 200px;
+      height: 150px;
+      perspective: 1000px;
+    }
+    .flashcard-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      cursor: pointer;
+    }
+    .flashcard.flipped .flashcard-inner {
+      transform: rotateY(180deg);
+    }
+    .flashcard-front,
+    .flashcard-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+    .flashcard-back {
+      background-color: var(--accent);
+      transform: rotateY(180deg);
+    }
+    /* QUIZ SECTION */
+    .quiz-section {
+      padding: 40px 0;
+      background-color: white;
+      text-align: center;
+    }
+    .quiz-section form {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    .quiz-question {
+      margin-bottom: 20px;
+    }
+    .quiz-question p {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    .quiz-question label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .quiz-section button {
+      background-color: var(--primary);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    #quizFeedback {
+      font-size: 1.2rem;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    /* MARK AS COMPLETED BUTTON */
+    .mark-complete {
+      background-color: var(--primary);
+      color: white;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      margin: 30px auto;
+      display: none; /* Hidden until quiz is cleared */
+    }
+    /* FOOTER SECTION */
+    footer {
+      padding: 80px 0 30px;
+      background-color: var(--dark);
+      color: white;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+    .footer-logo {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: white;
+    }
+    .footer-desc {
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .footer-social {
+      display: flex;
+      gap: 15px;
+    }
+    .footer-social a {
+      width: 40px;
+      height: 40px;
+      background-color: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s;
+    }
+    .footer-social a:hover {
+      background-color: rgba(255,255,255,0.2);
+    }
+    .footer-heading {
+      font-size: 1.2rem;
+      margin-bottom: 25px;
+      color: white;
+    }
+    .footer-links {
+      list-style: none;
+    }
+    .footer-links li {
+      margin-bottom: 15px;
+    }
+    .footer-links a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .footer-links a:hover {
+      color: white;
+    }
+    .footer-bottom {
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5);
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER (Common across pages) -->
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">Learn German</div>
+        <div class="nav-links" id="navLinks">
+          <a href="index.html#features">Features</a>
+          <a href="index.html#lessons">Lessons</a>
+          <a href="index.html#contact">Contact</a>
+          <a href="login.html" id="loginLink" class="cta-button">Login</a>
+          <a href="register.html" id="registerLink" class="cta-button">Register</a>
+        </div>
+        <a href="get-started.html" id="getStartedButton" class="cta-button">Get Started</a>
+      </nav>
+    </div>
+  </header>
+  
+  <!-- MAIN LESSON CONTENT -->
+  <main style="padding-top: 100px;">
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="hero-title">Wegbeschreibungen</h1>
+          <p class="hero-subtitle">
+            Master the art of asking for and giving directions in German using real-life scenarios.
+          </p>
+        </div>
+        <div class="hero-image">
+          <!-- Optional image -->
+        </div>
+      </div>
+    </section>
+    
+    <!-- LESSON OVERVIEW -->
+    <section class="lesson-section">
+      <div class="container">
+        <h2>Lesson Overview</h2>
+        <p>This lesson covers the essential vocabulary and sentence structures required for asking and giving directions in German.</p>
+        <blockquote>
+          <p><strong>Traveler:</strong> Entschuldigung, wie komme ich zum Bahnhof?</p>
+          <p><strong>Local:</strong> Gehen Sie geradeaus und biegen Sie an der zweiten Kreuzung rechts ab.</p>
+        </blockquote>
+      </div>
+    </section>
+    
+    <!-- FLASHCARDS SECTION -->
+    <section class="flashcards-section">
+      <div class="container">
+        <h2>Flashcards</h2>
+        <div id="flashcardsContainer" class="flashcards-container">
+          <!-- Flashcards will be loaded dynamically -->
+        </div>
+      </div>
+    </section>
+    
+    <!-- QUIZ SECTION -->
+    <section class="lesson-section" id="quizSection">
+      <div class="container">
+        <h2>Quiz</h2>
+        <form id="quizForm">
+          <div id="quizQuestions"></div>
+          <button type="submit" class="cta-button">Submit Quiz</button>
+        </form>
+        <p id="quizFeedback"></p>
+      </div>
+    </section>
+    
+    <!-- MARK AS COMPLETED BUTTON (Hidden until quiz cleared) -->
+    <div class="container">
+      <button id="markCompleteButton" class="mark-complete">Mark as Completed</button>
+    </div>
+  </main>
+  
+  <!-- FOOTER SECTION -->
+  <footer>
+    <div class="container" style="text-align: center;">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-logo">LinguaLern</div>
+          <p class="footer-desc">
+            Making German language learning accessible, effective, and enjoyable with AI-powered lessons based on the proven Netzwerk curriculum.
+          </p>
+          <div class="footer-social">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-heading">Learn</h4>
+          <ul class="footer-links">
+            <li><a href="#">A1 Beginner</a></li>
+            <li><a href="#">A2 Elementary</a></li>
+            <li><a href="#">Grammar</a></li>
+            <li><a href="#">Vocabulary</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Company</h4>
+          <ul class="footer-links">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Press</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-heading">Support</h4>
+          <ul class="footer-links">
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Learn German. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- COMMON JAVASCRIPT -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Animate hero content for visual impact.
+      gsap.to('.hero-content', { opacity: 1, y: 0, duration: 1, delay: 0.2 });
+      
+      // Common Header & Get Started / Logout handling
+      const token = localStorage.getItem('token');
+      const navLinks = document.getElementById('navLinks');
+      const loginLink = document.getElementById('loginLink');
+      const registerLink = document.getElementById('registerLink');
+      const getStartedButton = document.getElementById('getStartedButton');
+      
+      if (token) {
+        if (loginLink) loginLink.style.display = 'none';
+        if (registerLink) registerLink.style.display = 'none';
+        if (getStartedButton) getStartedButton.style.display = 'none';
+        if (!document.querySelector('.logout-button')) {
+          const logoutButton = document.createElement('a');
+          logoutButton.href = "#";
+          logoutButton.textContent = "Logout";
+          logoutButton.className = "logout-button";
+          logoutButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('token');
+            window.location.href = "index.html";
+          });
+          navLinks.appendChild(logoutButton);
+        }
+      }
+      
+      // Load Flashcards (static sample)
+      loadFlashcards();
+      
+      // Load quiz questions for the "Wegbeschreibungen" lesson.
+      loadQuizQuestions();
+      
+      // Initially hide the "Mark as Completed" button.
+      document.getElementById('markCompleteButton').style.display = 'none';
+    });
+    
+    // Flashcards loader (static sample)
+    function loadFlashcards() {
+      const flashcardsData = [
+        { question: "What does 'geradeaus' mean?", answer: "Straight ahead" },
+        { question: "What is 'links' in English?", answer: "Left" },
+        { question: "How do you say 'intersection' in German?", answer: "Kreuzung" },
+        { question: "What does 'rechts' mean?", answer: "Right" },
+        { question: "Which question asks for directions?", answer: "Wie komme ich zu...?" }
+      ];
+      const container = document.getElementById('flashcardsContainer');
+      if (!container) return;
+      flashcardsData.forEach(card => {
+        const cardElem = document.createElement('div');
+        cardElem.classList.add('flashcard');
+        cardElem.innerHTML = `
+          <div class="flashcard-inner">
+            <div class="flashcard-front">${card.question}</div>
+            <div class="flashcard-back">${card.answer}</div>
+          </div>
+        `;
+        cardElem.addEventListener('click', () => {
+          cardElem.classList.toggle('flipped');
+        });
+        container.appendChild(cardElem);
+      });
+    }
+    
+    // Quiz loader function for "Wegbeschreibungen"
+    async function loadQuizQuestions() {
+      try {
+        const response = await fetch('http://localhost:3000/api/quiz-questions/wegbeschreibungen');
+        const quizData = await response.json();
+        const quizContainer = document.getElementById('quizQuestions');
+        quizData.forEach((q, i) => {
+          const questionDiv = document.createElement('div');
+          questionDiv.classList.add('quiz-question');
+          questionDiv.dataset.correct = q.correct;
+          let optionsHTML = "";
+          q.options.forEach(option => {
+            optionsHTML += `<label><input type="radio" name="q${i}" value="${option}"> ${option}</label>`;
+          });
+          questionDiv.innerHTML = `<p>${q.question}</p>${optionsHTML}`;
+          quizContainer.appendChild(questionDiv);
+        });
+      } catch (error) {
+        console.error('Failed to load quiz questions:', error);
+      }
+    }
+    
+    // Quiz submission: if all correct, show Mark as Completed button
+    document.getElementById('quizForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      let score = 0;
+      const quizQuestions = document.querySelectorAll('.quiz-question');
+      quizQuestions.forEach((q, i) => {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (selected && selected.value === q.dataset.correct) {
+          score++;
+        }
+      });
+      const totalQuestions = quizQuestions.length;
+      const feedback = document.getElementById('quizFeedback');
+      if (score === totalQuestions) {
+        feedback.textContent = `Congratulations! You answered all ${totalQuestions} questions correctly.`;
+        feedback.style.color = 'green';
+        const markButton = document.getElementById('markCompleteButton');
+        markButton.style.display = 'block';
+      } else {
+        feedback.textContent = `You got ${score} out of ${totalQuestions} correct. Please try again until you clear the quiz.`;
+        feedback.style.color = 'red';
+      }
+    });
+    
+    // Function to mark lesson as completed (for Wegbeschreibungen)
+    async function markLessonComplete(lessonId) {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        alert('Please log in to save your progress.');
+        return;
+      }
+      try {
+        const progress = { lesson: lessonId, completed: true };
+        const response = await fetch('http://localhost:3000/api/progress', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ progress })
+        });
+        if (!response.ok) {
+          const errData = await response.json();
+          alert("Failed to save progress: " + errData.error);
+          return;
+        }
+        const data = await response.json();
+        alert('Progress saved! Lesson marked as completed.');
+        const markButton = document.getElementById('markCompleteButton');
+        markButton.disabled = true;
+        markButton.textContent = 'Completed';
+      } catch (error) {
+        console.error("Error saving progress:", error);
+        alert('Error saving progress.');
+      }
+    }
+    
+    // Attach event listener to Mark as Completed button for Wegbeschreibungen
+    document.getElementById('markCompleteButton').addEventListener('click', function() {
+      markLessonComplete('wegbeschreibungen');
+    });
+  </script>
+</body>
+</html>
